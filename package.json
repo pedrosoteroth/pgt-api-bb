@@ -1,0 +1,80 @@
+{
+  "name": "api-payments-bb",
+  "version": "1.0.0",
+  "description": "Projeto com gestao das chamadas de APIs financeiras do BB.",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "api-payments-bb"
+  },
+  "author": "Drakkar",
+  "license": "ISC",
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "bluebird": "^3.5.2",
+    "body-parser": "^1.17.2",
+    "brcap-aws": "^1.8.12",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "express": "^4.15.4",
+    "express-joi-validation": "^0.3.0",
+    "joi": "^14.0.4",
+    "log4js": "1.1.1",
+    "log4js-json": "^0.2.0",
+    "log4js-json-layout": "^1.0.5",
+    "moment": "^2.18.1",
+    "request": "^2.81.0",
+    "sequelize": "^4.41.2",
+    "utf8": "^2.1.2"
+  },
+  "scripts": {
+    "test": "nyc mocha test/**/*.spec.js --require test/init.js -t 20000 --verbose"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "chai": "^4.0.2",
+    "eslint": "^4.2.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-mocha": "0.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-mocha-only": "0.0.3",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "mocha-simple-html-reporter": "^1.0.1",
+    "nyc": "^11.0.3",
+    "rewire": "^2.5.2",
+    "sinon": "^2.3.5",
+    "supertest": "^3.0.0",
+    "unidecode": "0.1.8",
+    "verbose-console-log": "^0.1.8"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 10,
+    "statements": 0,
+    "functions": 0,
+    "branches": 0,
+    "include": [
+      "app/**/*.js"
+    ],
+    "exclude": [
+      "test/**/*.spec.js",
+      "app/dto/*.js",
+      "app/properties/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "cache": false,
+    "all": true
+  }
+}
