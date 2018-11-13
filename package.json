@@ -1,11 +1,11 @@
 {
-  "name": "api-payments-bb",
+  "name": "pgt-api-bb",
   "version": "1.0.0",
-  "description": "Projeto com gestao das chamadas de APIs financeiras do BB.",
+  "description": "Projeto que efetua o pagamento mediante leitura de fila SQS.",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "api-payments-bb"
+    "url": "pgt-api-bb"
   },
   "author": "Drakkar",
   "license": "ISC",
