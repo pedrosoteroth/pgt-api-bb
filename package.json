@@ -23,6 +23,7 @@
     "log4js-json": "^0.2.0",
     "log4js-json-layout": "^1.0.5",
     "moment": "^2.18.1",
+    "mysql2": "^1.6.4",
     "request": "^2.81.0",
     "sequelize": "^4.41.2",
     "utf8": "^2.1.2"
