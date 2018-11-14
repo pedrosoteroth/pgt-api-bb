@@ -7,18 +7,9 @@ const {
 } = require('../service/pagamentos');
 const {
   receiveMessage,
-  deleteMessage
+  deleteMessage,
+  publishMessage
 } = require('../sqs/pgt-api-bb');
-
-const atualizaStatusPago = ({
-  idPagamento
-}) => PgtPagamento.update({
-  idStatusPagamento: 3
-}, {
-  where: {
-    idPagamento
-  }
-}).then(affectedRows => console.log('affectedRows ', affectedRows));
 
 const contratoApiPagamentos = ({
   idPagamento,
@@ -36,21 +27,44 @@ const contratoApiPagamentos = ({
   valor: valorLiquido
 });
 
-const notificaFilaErros = () => true;
+const atualizaStatusPago = ({
+  idPagamento
+}) => PgtPagamento.update({
+  idStatusPagamento: 3
+}, {
+  where: {
+    idPagamento
+  }
+}).then(affectedRows => console.log('affectedRows ', affectedRows));
 
-const efetuaPagamentos = pagamentos => pagamentos
-  .map(pagamento => postPagamentos(contratoApiPagamentos(pagamento))
-    .then(({
-      statusCode,
-      body
-    }) => {
-      if (statusCode === 200) atualizaStatusPago(pagamento);
-      else throw body;
-    })
-    .catch((err) => {
-      console.log('err', err);
-      notificaFilaErros(pagamento);
-    }));
+const notificaFilaErros = message => publishMessage({
+  message
+});
+
+const verificaSucessoApiPagamentos = ({
+  statusCode,
+  body,
+  pagamento
+}) => {
+  if (statusCode === 200) atualizaStatusPago(pagamento);
+  else throw body;
+};
+
+const chamaApiPagamentos = pagamento => postPagamentos(pagamento)
+  .then(({
+    statusCode,
+    body
+  }) => verificaSucessoApiPagamentos({
+    statusCode,
+    body,
+    pagamento
+  }))
+  .catch((err) => {
+    console.log('err ', err);
+    notificaFilaErros(pagamento);
+  });
+
+const efetuaPagamentos = pagamentos => pagamentos.map(pagamento => chamaApiPagamentos(contratoApiPagamentos(pagamento)));
 
 const consultaPagamentosAgendados = (req, res) => PgtPagamento.all({
     where: {
@@ -68,10 +82,28 @@ const consultaPagamentosAgendados = (req, res) => PgtPagamento.all({
     res.send(err.statusCode);
   });
 
-const captaSQSPgtApiBB = (req, res) => receiveMessage().then((result) => {
-  res.status(200);
-  res.send(result);
-});
+const captaSQSPgtApiBB = (req, res) => receiveMessage()
+  .then(({
+    receiptHandle,
+    arn,
+    messageId,
+    subject,
+    body
+  }) => {
+    Object.assign(body, {
+      QueueMonitorId: undefined
+    });
+
+    chamaApiPagamentos(body);
+    deleteMessage({
+      receiptHandle,
+      arn,
+      messageId,
+      subject
+    });
+    res.status(200);
+    res.send(body);
+  });
 
 module.exports = {
   consultaPagamentosAgendados,
