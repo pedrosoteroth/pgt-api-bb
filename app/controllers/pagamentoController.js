@@ -46,8 +46,8 @@ const verificaSucessoApiPagamentos = ({
   body,
   pagamento
 }) => {
-  if (statusCode === 200) atualizaStatusPago(pagamento);
-  else throw body;
+  if (statusCode === 200) return atualizaStatusPago(pagamento);
+  return Promise.reject(body);
 };
 
 const chamaApiPagamentos = pagamento => postPagamentos(pagamento)
