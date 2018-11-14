@@ -9,7 +9,8 @@ const getSequelize = () => new Sequelize(
         dialect: global.PropertiesDbDTO.dbDialect,
         logging: true,
         benchmark: false
-    });
+    }
+);
 
 module.exports = {
     Sequelize,
