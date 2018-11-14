@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 
+// TODO properties
 const getSequelize = () => new Sequelize(
     global.PropertiesDbDTO.dbName,
     global.PropertiesDbDTO.dbUser,

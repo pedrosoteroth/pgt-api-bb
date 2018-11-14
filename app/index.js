@@ -30,6 +30,8 @@ app.use(bodyParser.urlencoded({
 /** parse application json for @module app */
 app.use(bodyParser.json());
 
+
+// TODO Properties
 getPropertiesS3(process.env.environment, [{
         chave: 'PropertiesDbDTO',
         valor: 'pagamento_db'

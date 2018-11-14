@@ -176,7 +176,7 @@ const schemaPgtPagamento = {
         field: 'ID_PLANO'
     },
     dataAgendaPgto: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         field: 'DATA_AGENDA_PGTO'
     },
     numTitulo: {
@@ -198,8 +198,7 @@ const schemaPgtPagamento = {
 const PgtPagamento = getSequelize().define(
     'PGT_PAGAMENTO_TB', schemaPgtPagamento, {
         freezeTableName: true,
-        timestamps: false,
-        timezone: '+00:00'
+        timestamps: false
     }
 );
 

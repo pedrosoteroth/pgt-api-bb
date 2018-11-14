@@ -1,6 +1,7 @@
 const logger = global.log4js.getLogger('[sqs-pgt-api-bb]');
 
 const {
+    SNS_Post,
     SQS_Get,
     SQS_DeleteWithMonitor
 } = require('brcap-aws');
